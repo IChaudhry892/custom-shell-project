@@ -4,12 +4,11 @@
 
 // Running the shell in interactive mode
 void run_interactive_mode(){
-    char input_line[MAX_COMMAND_INPUT_SIZE];    // User input
+    char input_line[MAX_COMMAND_INPUT_SIZE];    // Character array to store user input
     while (1){
         // Prompt user for input
         printf("newshell>> ");
-
-        if (fgets(input_line, MAX_COMMAND_INPUT_SIZE, stdin) == NULL){
+        if (fgets(input_line, MAX_COMMAND_INPUT_SIZE, stdin) == NULL){  // Gets user input
             // handle error or end of file
             break;
         }
@@ -35,13 +34,15 @@ void run_batch_mode(){
 }
 
 // Executing commands
-void parse_and_execute(){
-    
+void parse_and_execute(char *input_line){
+    // Split the user input line into commands and arguments
+
+    // Execute each command with its corresponding arguments using fork() and execvp()
 }
 
 // Executing the 3 built-in commands
 
-// Redirection
+// Redirection - Ibrahim
 
 // Pipelining
 
