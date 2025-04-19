@@ -4,6 +4,7 @@ int main(int argc, char *argv[]){
     if (argc == 1){
         // Run shell in interactive mode
         printf("CALL INTERACTIVE MODE FUNCTION\n");
+        run_interactive_mode();
     } else if (argc == 2){
         // Run shell in batch mode
         printf("CALL BATCH MODE FUNCTION\n");

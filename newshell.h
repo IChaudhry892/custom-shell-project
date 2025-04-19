@@ -13,15 +13,18 @@
 #include <signal.h>
 
 // Command-line input handles up 512 characters
-#define MAX_COMMAND_INPUT_SIZE = 512
+#define MAX_COMMAND_INPUT_SIZE 512
 
 // Function Prototypes For:
 
 // Running the shell in interactive mode
+void run_interactive_mode();
 
 // Running the shell in batch mode
+void run_batch_mode();
 
 // Executing commands
+void parse_and_execute();
 
 // Executing the 3 built-in commands
 
