@@ -1,9 +1,15 @@
 #include "newshell.h"
+void handle_sigint(int sig) {
+    printf("\nCaught signal %d (SIGINT). Use 'exit' to quit.\nnewshell>> ", sig);
+    fflush(stdout);
+}
+
 
 // Function Implementations For:
 
 // Running the shell in interactive mode
-void run_interactive_mode(){
+void run_interactive_mode(){ 
+    signal(SIGINT, handle_sigint);  // Register SIGINT handler
     char input_line[MAX_COMMAND_INPUT_SIZE];    // Character array to store user input
     while (1){
         // Prompt user for input
@@ -28,9 +34,24 @@ void run_interactive_mode(){
 }
 
 // Running the shell in batch mode
-void run_batch_mode(){
+void run_batch_mode(char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Batch file open error");
+        exit(EXIT_FAILURE);
+    }
 
+    char input_line[MAX_COMMAND_INPUT_SIZE];
+    while (fgets(input_line, MAX_COMMAND_INPUT_SIZE, file) != NULL) {
+        input_line[strcspn(input_line, "\n")] = '\0'; // Remove newline
+        if (strlen(input_line) > 0) {
+            parse_and_execute(input_line);
+        }
+    }
+
+    fclose(file);
 }
+
 
 // Tokenizing a command
 char **parse_input(char *command){
