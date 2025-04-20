@@ -92,34 +92,88 @@ void execute_command(char **args){
 
 // Parsing and executing the input line
 void parse_and_execute(char *input_line){
-    // Split the user input line into commands and arguments
-    // Multiple commands should be split by a semicolon
-
-    // Execute each command with its corresponding arguments using fork() and exec() family system calls
-
     // Split the user input line into multiple commands by semicolons
-    char *command = strtok(input_line, ";");
+    printf("Input line: %s\n", input_line);    // ** FOR DEBUGGING ***
+
+    int buffer_size = 64; // Initial buffer for **commands to hold up to 64 commands
+    char **commands = malloc(buffer_size * sizeof(char *)); // Allocates memory for an array of buffer_size string pointers to hold parsed commands
+    if (commands == NULL){  // If memory allocation failed
+        perror("malloc error");
+        exit(EXIT_FAILURE);
+    }
+
+    int index = 0;  // Keeps track of the number of commands    
+    char *command = strtok(input_line, ";");    // Split the input line at semicolons
 
     while (command != NULL){
-        printf("Command: %s\n", command); // *** FOR DEBUGGING ***
-        while (*command == ' '){   // Skip leading or trailing whitespace
-            command++;
+        if (index >= buffer_size){ // If the number of commands exceeds the initial buffer size;
+            buffer_size *= 2;   // Double the buffer size
+            commands = realloc(commands, buffer_size * sizeof(char *));
+            if (commands == NULL){  // If memory reallocation failed
+                perror("realloc error");
+                exit(EXIT_FAILURE);
+            }
         }
 
-        if (strlen(command) == 0){   // Ignore empty commands
-            command = strtok(NULL, ";");
+        printf("Command %d: %s\n", index+1, command); // *** FOR DEBUGGING ***
+        commands[index] = command;
+        // *** FOR DEBUGGING ***
+        printf("Commands:\n");
+        for (int i = 0; commands[i] != NULL; i++) {
+            printf("commands[%d]: %s\n", i, commands[i]);
+        }
+        // *** FOR DEBUGGING ***
+
+        // while (*command == ' ' || *command =='\t'){   // Skip leading or trailing whitespace
+        //     command++;
+        // }
+
+        // if (strlen(command) == 0){   // Ignore empty commands
+        //     command = strtok(NULL, ";");
+        //     continue;
+        // }
+
+        // Parse the command into args
+        // char **args = parse_input(command);
+
+        // Execute the command
+        // execute_command(args);
+
+        // free(args);   // Free the memory allocated by parse_input(command)
+        command = strtok(NULL, ";");   // Move to the next command
+        index++;
+    }
+
+    commands[index] = NULL;   // Null-terminate the command list
+
+    // Second loop to execute each command
+    for (int i = 0; commands[i] != NULL; i++){
+        // Trip leading or trailing whitespace
+        while (*commands[i] == ' ' || *commands[i] == '\t') {
+            commands[i]++;
+        }
+
+        // Ignore empty commands
+        if (strlen(commands[i]) == 0){
             continue;
         }
 
-        // Parse the command into args
-        char **args = parse_input(command);
+        printf("Executing command[%d]: %s\n", i, commands[i]);   // *** FOR DEBUGGING ***
 
-        // Execute the command
+        // Duplicate command to avoid strtok state conflicts
+        char *command_copy = strdup(commands[i]);
+        if (command_copy == NULL) {
+            perror("strdup error");
+            exit(EXIT_FAILURE);
+        }
+
+        char **args = parse_input(command_copy);
         execute_command(args);
-
-        free(args);   // Free the memory allocated by parse_input(command)
-        command = strtok(NULL, ";");   // Move to the next command
+        free(args);
+        free(command_copy);
     }
+
+    free(commands);
 }
 
 // Executing the 3 built-in commands, maybe we could just do this in parse_and_execute
