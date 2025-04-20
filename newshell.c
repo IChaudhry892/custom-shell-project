@@ -40,7 +40,7 @@ void parse_and_execute(char *input_line){
     // Execute each command with its corresponding arguments using fork() and execvp()
 }
 
-// Executing the 3 built-in commands
+// Executing the 3 built-in commands, maybe we could just do this in parse_and_execute
 
 // Redirection - Ibrahim
 
