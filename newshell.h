@@ -21,7 +21,7 @@
 void run_interactive_mode();
 
 // Running the shell in batch mode
-void run_batch_mode();
+void run_batch_mode(char *filename);
 
 // Tokenizing a command
 char **parse_input(char *command);
