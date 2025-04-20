@@ -41,9 +41,50 @@ void cd_command(char **args){
 }
 
 // path Command - Prateek
-void path_command() {
-    printf("Custom path management not implemented yet.\n");
+void path_command(char **args) {
+    if (args[1] == NULL) {
+        // If no arguments, print current path list
+        if (path_count == 0) {
+            printf("No paths set.\n");
+        } else {
+            for (int i = 0; i < path_count; i++) {
+                printf("%s", path_list[i]);
+                if (i < path_count - 1) printf(":");
+            }
+            printf("\n");
+        }
+    } else if (strcmp(args[1], "+") == 0 && args[2] != NULL) {
+        // Add a new path
+        if (path_count < MAX_PATHS) {
+            path_list[path_count++] = strdup(args[2]);
+            printf("Path added: %s\n", args[2]);
+        } else {
+            fprintf(stderr, "Error: Maximum number of paths reached.\n");
+        }
+    } else if (strcmp(args[1], "-") == 0 && args[2] != NULL) {
+        // Remove a path
+        int found = 0;
+        for (int i = 0; i < path_count; i++) {
+            if (strcmp(path_list[i], args[2]) == 0) {
+                free(path_list[i]);
+                // Shift the remaining paths left
+                for (int j = i; j < path_count - 1; j++) {
+                    path_list[j] = path_list[j + 1];
+                }
+                path_count--;
+                found = 1;
+                printf("Path removed: %s\n", args[2]);
+                break;
+            }
+        }
+        if (!found) {
+            fprintf(stderr, "Error: Path not found: %s\n", args[2]);
+        }
+    } else {
+        fprintf(stderr, "Invalid path command usage. Use 'path' to list, 'path + <path>' to add, or 'path - <path>' to remove.\n");
+    }
 }
+
 
 // exit Command - Achintya
 void exit_command() {
