@@ -7,6 +7,12 @@
 
 // cd Command - Ibrahim
 void cd_command();
+// exit Command - Achintya
+void exit_command();
+
+// path Command - Achintya
+void path_command();
+
 
 // exit Command
 
