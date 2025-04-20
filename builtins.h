@@ -15,7 +15,7 @@
 // Function Prototypes for 3 Built-In Commands
 
 // cd Command - Ibrahim
-void cd_command();
+void cd_command(char **args);
 // exit Command - Achintya
 void exit_command();
 

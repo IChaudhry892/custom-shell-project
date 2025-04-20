@@ -1,15 +1,5 @@
 #include "newshell.h"
 
-// Signal handling - Achintya
-void handle_signal(int sig) {
-    if (sig == SIGINT) {
-        printf("\nCaught SIGINT (Ctrl+C). Use 'exit' to quit.\nnewshell>> ");
-    } else if (sig == SIGTSTP) {
-        printf("\nCaught SIGTSTP (Ctrl+Z). Use 'exit' to quit.\nnewshell>> ");
-    }
-    fflush(stdout);
-}
-
 // Function Implementations For:
 
 // Running the shell in interactive mode
@@ -181,8 +171,10 @@ void parse_and_execute(char *input_line){
         // Parse the command into args
         char **args = parse_input(command_copy);
 
-        // Handle built-in commands
-        if (strcmp(args[0], "exit") == 0) {
+        // Execute command, handle built-in commands
+        if (strcmp(args[0], "cd") == 0){
+            cd_command(args);
+        } else if (strcmp(args[0], "exit") == 0) {
             exit_command();
         } else if (strcmp(args[0], "path") == 0) {
             path_command();
@@ -204,3 +196,13 @@ void parse_and_execute(char *input_line){
 // Redirection - Ibrahim
 
 // Pipelining - Prateek
+
+// Signal handling - Achintya
+void handle_signal(int sig) {
+    if (sig == SIGINT) {
+        printf("\nCaught SIGINT (Ctrl+C). Use 'exit' to quit.\nnewshell>> ");
+    } else if (sig == SIGTSTP) {
+        printf("\nCaught SIGTSTP (Ctrl+Z). Use 'exit' to quit.\nnewshell>> ");
+    }
+    fflush(stdout);
+}

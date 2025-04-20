@@ -33,12 +33,11 @@ void execute_command(char **args);
 // Parsing and executing the input line
 void parse_and_execute(char *input_line);
 
-// Executing the 3 built-in commands, maybe we could just do this in parse_and_execute
-
 // Redirection - Ibrahim
 
-// Pipelining
+// Pipelining - Prateek
 
-// Signal handling
+// Signal handling - Achintya
+void handle_signal(int sig);
 
 #endif
