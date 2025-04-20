@@ -113,6 +113,12 @@ void parse_and_execute(char *input_line){
     // Split the user input line into multiple commands by semicolons
     printf("Input line: %s\n", input_line);    // ** FOR DEBUGGING ***
 
+    //if command has '|' handles it by calling the execute_pipeline funciton
+    if (strchr(input_line, '|') != NULL) {
+        execute_pipeline(input_line);
+        return;
+    }
+
     int buffer_size = 64; // Initial buffer for **commands to hold up to 64 commands
     char **commands = malloc(buffer_size * sizeof(char *)); // Allocates memory for an array of buffer_size string pointers to hold parsed commands
     if (commands == NULL){  // If memory allocation failed
