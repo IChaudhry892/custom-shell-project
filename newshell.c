@@ -188,6 +188,8 @@ void parse_and_execute(char *input_line){
             exit(EXIT_FAILURE);
         }
 
+        char **args = parse_input(command_copy);
+
         // Handle built-in commands
         if (strcmp(args[0], "exit") == 0) {
             exit_command();
@@ -197,8 +199,8 @@ void parse_and_execute(char *input_line){
             execute_command(args);
         }
 
-free(args);
-free(command_copy);
+        free(args);
+        free(command_copy);
 
     }
 

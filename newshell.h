@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
+#include "builtins.h"
 
 // Command-line input handles up to 512 characters
 #define MAX_COMMAND_INPUT_SIZE 512

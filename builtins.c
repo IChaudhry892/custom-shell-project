@@ -16,9 +16,6 @@ void path_command() {
     printf("Custom path management not implemented yet.\n");
 }
 
-    
-}
-
 // exit Command
 
 // path Command
