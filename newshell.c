@@ -14,7 +14,7 @@ void run_interactive_mode(){
         }
         input_line[strcspn(input_line, "\n")] = '\0';   // Remove the newline character at the end of fgets() input
 
-        if (input_line == 0){   // Ignore empty user input, re-prompt
+        if (strlen(input_line) == 0){   // Ignore empty user input, re-prompt
             continue;
         }
 
@@ -23,10 +23,7 @@ void run_interactive_mode(){
         // char **args = parse_input(input_line);
         // *** FOR DEBUGGING ***
 
-        /*
-        TODO: Parse user input and execute commands
         parse_and_execute(input_line);
-        */
     }
 }
 
@@ -41,7 +38,7 @@ char **parse_input(char *command){
 
     char **args = malloc(buffer_size * sizeof(char *)); // Allocates memory for an array of buffer_size string pointers to hold parsed arguments (e.g., "ls", "-l", NULL)
     if (args == NULL){  // If memory allocation failed
-        perror("malloc");
+        perror("malloc error");
         exit(EXIT_FAILURE);
     }
 
@@ -53,12 +50,12 @@ char **parse_input(char *command){
             buffer_size *= 2;   // Double the buffer size
             args = realloc(args, buffer_size * sizeof(char *));
             if (args == NULL){  // If memory reallocation failed
-                perror("realloc");
+                perror("realloc error");
                 exit(EXIT_FAILURE);
             }
         }
 
-        // printf("Token %d: %s\n", index+1, token); // *** FOR DEBUGGING ***
+        printf("Token %d: %s\n", index+1, token); // *** FOR DEBUGGING ***
         args[index] = token;    // Add current token to the args array
         token = strtok(NULL, " \t");    // Move to the next token
         index++;
@@ -66,17 +63,31 @@ char **parse_input(char *command){
 
     args[index] = NULL; // Last argument should be NULL for args to work with execvp()
     // *** FOR DEBUGGING ***
-    // printf("Arguments:\n");
-    // for (int i = 0; args[i] != NULL; i++) {
-    //     printf("args[%d]: %s\n", i, args[i]);
-    // }
+    printf("Arguments:\n");
+    for (int i = 0; args[i] != NULL; i++) {
+        printf("args[%d]: %s\n", i, args[i]);
+    }
     // *** FOR DEBUGGING ***
     return args;    // Return the parsed command as an array of strings
 }
 
 // Executing a command
 void execute_command(char **args){
+    if (args[0] == NULL){   // Ignore empty (NULL) commands
+        return;
+    }
+
+    pid_t pid = fork();
     
+    if (pid == 0){   // Child process
+        execvp(args[0], args);
+        fprintf(stderr, "%s: command not found\n", args[0]);
+        exit(EXIT_FAILURE);
+    } else if (pid > 0){   // Parent Process
+        waitpid(pid, NULL, 0);  // Wait for the child to finish
+    } else{   // Error
+        perror("fork error");
+    }
 }
 
 // Parsing and executing the input line
@@ -85,6 +96,30 @@ void parse_and_execute(char *input_line){
     // Multiple commands should be split by a semicolon
 
     // Execute each command with its corresponding arguments using fork() and exec() family system calls
+
+    // Split the user input line into multiple commands by semicolons
+    char *command = strtok(input_line, ";");
+
+    while (command != NULL){
+        printf("Command: %s\n", command); // *** FOR DEBUGGING ***
+        while (*command == ' '){   // Skip leading or trailing whitespace
+            command++;
+        }
+
+        if (strlen(command) == 0){   // Ignore empty commands
+            command = strtok(NULL, ";");
+            continue;
+        }
+
+        // Parse the command into args
+        char **args = parse_input(command);
+
+        // Execute the command
+        execute_command(args);
+
+        free(args);   // Free the memory allocated by parse_input(command)
+        command = strtok(NULL, ";");   // Move to the next command
+    }
 }
 
 // Executing the 3 built-in commands, maybe we could just do this in parse_and_execute

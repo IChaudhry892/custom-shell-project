@@ -30,7 +30,7 @@ char **parse_input(char *command);
 void execute_command(char **args);
 
 // Executing commands
-void parse_and_execute();
+void parse_and_execute(char *input_line);
 
 // Executing the 3 built-in commands, maybe we could just do this in parse_and_execute
 
