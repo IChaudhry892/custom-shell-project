@@ -1,5 +1,15 @@
 #include "newshell.h"
 
+// Signal handling - Achintya
+void handle_signal(int sig) {
+    if (sig == SIGINT) {
+        printf("\nCaught SIGINT (Ctrl+C). Use 'exit' to quit.\nnewshell>> ");
+    } else if (sig == SIGTSTP) {
+        printf("\nCaught SIGTSTP (Ctrl+Z). Use 'exit' to quit.\nnewshell>> ");
+    }
+    fflush(stdout);
+}
+
 // Function Implementations For:
 
 // Running the shell in interactive mode
@@ -141,23 +151,6 @@ void parse_and_execute(char *input_line){
             printf("commands[%d]: %s\n", i, commands[i]);
         }
         // *** FOR DEBUGGING ***
-
-        // while (*command == ' ' || *command =='\t'){   // Skip leading or trailing whitespace
-        //     command++;
-        // }
-
-        // if (strlen(command) == 0){   // Ignore empty commands
-        //     command = strtok(NULL, ";");
-        //     continue;
-        // }
-
-        // Parse the command into args
-        // char **args = parse_input(command);
-
-        // Execute the command
-        // execute_command(args);
-
-        // free(args);   // Free the memory allocated by parse_input(command)
         command = strtok(NULL, ";");   // Move to the next command
         index++;
     }
@@ -166,7 +159,7 @@ void parse_and_execute(char *input_line){
 
     // Second loop to execute each command
     for (int i = 0; commands[i] != NULL; i++){
-        // Trip leading or trailing whitespace
+        // Skip leading or trailing whitespace
         while (*commands[i] == ' ' || *commands[i] == '\t') {
             commands[i]++;
         }
@@ -185,6 +178,7 @@ void parse_and_execute(char *input_line){
             exit(EXIT_FAILURE);
         }
 
+        // Parse the command into args
         char **args = parse_input(command_copy);
 
         // Handle built-in commands
@@ -196,6 +190,7 @@ void parse_and_execute(char *input_line){
             execute_command(args);
         }
 
+        // Free allocated memory
         free(args);
         free(command_copy);
 
@@ -209,13 +204,3 @@ void parse_and_execute(char *input_line){
 // Redirection - Ibrahim
 
 // Pipelining - Prateek
-
-// Signal handling - Achintya
-void handle_signal(int sig) {
-    if (sig == SIGINT) {
-        printf("\nCaught SIGINT (Ctrl+C). Use 'exit' to quit.\nnewshell>> ");
-    } else if (sig == SIGTSTP) {
-        printf("\nCaught SIGTSTP (Ctrl+Z). Use 'exit' to quit.\nnewshell>> ");
-    }
-    fflush(stdout);
-}
