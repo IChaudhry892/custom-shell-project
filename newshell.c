@@ -1,14 +1,4 @@
 #include "newshell.h"
-void handle_signal(int sig) {
-    if (sig == SIGINT) {
-        printf("\nCaught SIGINT (Ctrl+C). Use 'exit' to quit.\nnewshell>> ");
-    } else if (sig == SIGTSTP) {
-        printf("\nCaught SIGTSTP (Ctrl+Z). Use 'exit' to quit.\nnewshell>> ");
-    }
-    fflush(stdout);
-}
-
-
 
 // Function Implementations For:
 
@@ -218,6 +208,14 @@ void parse_and_execute(char *input_line){
 
 // Redirection - Ibrahim
 
-// Pipelining
+// Pipelining - Prateek
 
-// Signal handling
+// Signal handling - Achintya
+void handle_signal(int sig) {
+    if (sig == SIGINT) {
+        printf("\nCaught SIGINT (Ctrl+C). Use 'exit' to quit.\nnewshell>> ");
+    } else if (sig == SIGTSTP) {
+        printf("\nCaught SIGTSTP (Ctrl+Z). Use 'exit' to quit.\nnewshell>> ");
+    }
+    fflush(stdout);
+}

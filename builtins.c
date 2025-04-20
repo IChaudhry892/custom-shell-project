@@ -6,22 +6,13 @@
 void cd_command(){
 }
 
-    // exit Command - Achintya
-void exit_command() {
-    exit(0);
-}
-
-// path Command - Achintya
+// path Command - Prateek
 void path_command() {
     printf("Custom path management not implemented yet.\n");
 }
 
-// exit Command
-
+// exit Command - Achintya
 void exit_command() {
     printf("Exiting newshell... Goodbye, Achintya!\n");
     exit(EXIT_SUCCESS);
 }
-
-
-// path Command
