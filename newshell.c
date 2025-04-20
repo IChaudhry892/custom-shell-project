@@ -37,7 +37,9 @@ void run_batch_mode(){
 
 // Tokenizing a command
 char **parse_input(char *command){
-    char **args = malloc(64 * sizeof(char *)); // Allocates memory for an array of 64 string pointers to hold parse arguments (e.g., "ls", "-l", NULL)
+    int buffer_size = 64; // Initial buffer for **args to hold up to 64 arguments
+
+    char **args = malloc(buffer_size * sizeof(char *)); // Allocates memory for an array of buffer_size string pointers to hold parsed arguments (e.g., "ls", "-l", NULL)
     if (args == NULL){  // If memory allocation failed
         perror("malloc");
         exit(EXIT_FAILURE);
@@ -47,6 +49,15 @@ char **parse_input(char *command){
     char *token = strtok(command, " \t");   // Splits the command string at spaces or tabs
 
     while (token != NULL){
+        if (index >= buffer_size){ // If the number of arguments exceeds the initial buffer size;
+            buffer_size *= 2;   // Double the buffer size
+            args = realloc(args, buffer_size * sizeof(char *));
+            if (args == NULL){  // If memory reallocation failed
+                perror("realloc");
+                exit(EXIT_FAILURE);
+            }
+        }
+
         // printf("Token %d: %s\n", index+1, token); // *** FOR DEBUGGING ***
         args[index] = token;    // Add current token to the args array
         token = strtok(NULL, " \t");    // Move to the next token
