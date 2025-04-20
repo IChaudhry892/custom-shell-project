@@ -29,11 +29,11 @@
 - Implemented `TODO` in `builtins.c`.
 
 **Achintya Yalamati:**
-- TODO
-- Created the function prototype for `TODO` in `newshell.h`.
-- Implemented `TODO` in `newshell.c`.
-- Created the function prototype for `TODO` in `builtins.h`.
-- Implemented `TODO` in `builtins.c`.
+- Added built-in command `exit`
+- Added built-in command `path`
+- Implemented function prototypes in `builtins.h`
+- Implemented functions in `builtins.c`
+- Added command handling logic in `newshell.c`
 
 ## How to Compile and Run
 To build the executable using the makefile, run:<br>
