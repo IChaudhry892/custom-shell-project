@@ -196,6 +196,56 @@ void parse_and_execute(char *input_line){
 // Redirection - Ibrahim
 
 // Pipelining - Prateek
+void execute_pipeline(char *input_line) {
+    char *commands[3];
+    int cmd_count = 0;
+
+    char *token = strtok(input_line, "|");
+    while (token && cmd_count < 3) {
+        while (*token == ' ') token++;  // trim leading spaces
+        commands[cmd_count++] = token;
+        token = strtok(NULL, "|");
+    }
+
+    int pipe_fds[2];
+    int prev_fd = -1;
+
+    for (int i = 0; i < cmd_count; i++) {
+        char *cmd_copy = strdup(commands[i]);
+        char **args = parse_input(cmd_copy);
+
+        if (i < cmd_count - 1) {
+            pipe(pipe_fds);
+        }
+
+        pid_t pid = fork();
+        if (pid == 0) {
+            if (i > 0) {
+                dup2(prev_fd, STDIN_FILENO);
+                close(prev_fd);
+            }
+            if (i < cmd_count - 1) {
+                close(pipe_fds[0]);
+                dup2(pipe_fds[1], STDOUT_FILENO);
+                close(pipe_fds[1]);
+            }
+            execvp(args[0], args);
+            perror("exec failed");
+            exit(1);
+        } else {
+            if (i > 0) close(prev_fd);
+            if (i < cmd_count - 1) {
+                close(pipe_fds[1]);
+                prev_fd = pipe_fds[0];
+            }
+            wait(NULL);
+        }
+
+        free(args);
+        free(cmd_copy);
+    }
+}
+
 
 // Signal handling - Achintya
 void handle_signal(int sig) {
