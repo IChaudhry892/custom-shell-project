@@ -26,5 +26,7 @@ void path_command();
 // exit Command
 
 // path Command
+void path_command(char **args);  // Updated to take arguments
+
 
 #endif
