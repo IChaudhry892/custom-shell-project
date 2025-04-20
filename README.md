@@ -29,11 +29,12 @@
 - Implemented `TODO` in `builtins.c`.
 
 **Achintya Yalamati:**
-- Added built-in command `exit`
-- Added built-in command `path`
-- Implemented function prototypes in `builtins.h`
-- Implemented functions in `builtins.c`
-- Added command handling logic in `newshell.c`
+- Implemented built-in command `exit`
+- Implemented signal handling for Ctrl+C (SIGINT)
+- Completed `run_batch_mode()` for batch command execution
+- Added function prototypes in `newshell.h`
+- Implemented functions in `newshell.c` and `builtins.c`
+
 
 ## How to Compile and Run
 To build the executable using the makefile, run:<br>
