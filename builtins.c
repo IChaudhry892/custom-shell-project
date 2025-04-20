@@ -4,6 +4,18 @@
 
 // cd Command - Ibrahim
 void cd_command(){
+}
+
+    // exit Command - Achintya
+void exit_command() {
+    exit(0);
+}
+
+// path Command - Achintya
+void path_command() {
+    printf("Custom path management not implemented yet.\n");
+}
+
     
 }
 
