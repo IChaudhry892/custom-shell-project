@@ -37,7 +37,7 @@ void run_batch_mode(){
 void parse_and_execute(char *input_line){
     // Split the user input line into commands and arguments
 
-    // Execute each command with its corresponding arguments using fork() and execvp()
+    // Execute each command with its corresponding arguments using fork() and exec() family system calls
 }
 
 // Executing the 3 built-in commands, maybe we could just do this in parse_and_execute

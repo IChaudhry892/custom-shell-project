@@ -12,7 +12,7 @@
 #include <fcntl.h>
 #include <signal.h>
 
-// Command-line input handles up 512 characters
+// Command-line input handles up to 512 characters
 #define MAX_COMMAND_INPUT_SIZE 512
 
 // Function Prototypes For:
@@ -26,7 +26,7 @@ void run_batch_mode();
 // Executing commands
 void parse_and_execute();
 
-// Executing the 3 built-in commands
+// Executing the 3 built-in commands, maybe we could just do this in parse_and_execute
 
 // Redirection - Ibrahim
 
