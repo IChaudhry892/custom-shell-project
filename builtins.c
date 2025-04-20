@@ -18,4 +18,10 @@ void path_command() {
 
 // exit Command
 
+void exit_command() {
+    printf("Exiting newshell... Goodbye, Achintya!\n");
+    exit(EXIT_SUCCESS);
+}
+
+
 // path Command
