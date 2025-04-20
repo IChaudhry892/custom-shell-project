@@ -23,6 +23,12 @@ void run_interactive_mode();
 // Running the shell in batch mode
 void run_batch_mode();
 
+// Tokenizing a command
+char **parse_input(char *command);
+
+// Executing a command
+void execute_command(char **args);
+
 // Executing commands
 void parse_and_execute();
 
