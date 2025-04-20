@@ -167,10 +167,18 @@ void parse_and_execute(char *input_line){
             exit(EXIT_FAILURE);
         }
 
-        char **args = parse_input(command_copy);
-        execute_command(args);
-        free(args);
-        free(command_copy);
+        // Handle built-in commands
+        if (strcmp(args[0], "exit") == 0) {
+            exit_command();
+        } else if (strcmp(args[0], "path") == 0) {
+            path_command();
+        } else {
+            execute_command(args);
+        }
+
+free(args);
+free(command_copy);
+
     }
 
     free(commands);
