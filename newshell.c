@@ -1,15 +1,22 @@
 #include "newshell.h"
-void handle_sigint(int sig) {
-    printf("\nCaught signal %d (SIGINT). Use 'exit' to quit.\nnewshell>> ", sig);
+void handle_signal(int sig) {
+    if (sig == SIGINT) {
+        printf("\nCaught SIGINT (Ctrl+C). Use 'exit' to quit.\nnewshell>> ");
+    } else if (sig == SIGTSTP) {
+        printf("\nCaught SIGTSTP (Ctrl+Z). Use 'exit' to quit.\nnewshell>> ");
+    }
     fflush(stdout);
 }
+
 
 
 // Function Implementations For:
 
 // Running the shell in interactive mode
 void run_interactive_mode(){ 
-    signal(SIGINT, handle_sigint);  // Register SIGINT handler
+    signal(SIGINT, handle_signal);   // Handle Ctrl+C
+    signal(SIGTSTP, handle_signal);  // Handle Ctrl+Z
+
     char input_line[MAX_COMMAND_INPUT_SIZE];    // Character array to store user input
     while (1){
         // Prompt user for input
