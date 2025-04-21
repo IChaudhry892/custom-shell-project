@@ -105,34 +105,14 @@ void execute_command(char **args){
     }
 
     pid_t pid = fork();
-
+    
     if (pid == 0){   // Child process
-        // Put child in its own process group
-        setpgid(0, 0);
-        // Give terminal control to child
-        tcsetpgrp(STDIN_FILENO, getpid());
-
-        // Restore default signal behavior in child
-        signal(SIGINT, SIG_DFL);
-        signal(SIGTSTP, SIG_DFL);
-
         execvp(args[0], args);
         fprintf(stderr, "%s: command not found\n", args[0]);
         exit(EXIT_FAILURE);
-    } 
-    else if (pid > 0){   // Parent process (shell)
-        // Set child's process group
-        setpgid(pid, pid);
-        // Give terminal control to child
-        tcsetpgrp(STDIN_FILENO, pid);
-
-        // Wait for the child to finish
-        waitpid(pid, NULL, 0);
-
-        // Restore terminal control to shell
-        tcsetpgrp(STDIN_FILENO, getpid());
-    } 
-    else{   // Error
+    } else if (pid > 0){   // Parent Process
+        waitpid(pid, NULL, 0);  // Wait for the child to finish
+    } else{   // Error
         perror("fork error");
     }
 }
