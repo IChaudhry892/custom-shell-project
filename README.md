@@ -40,14 +40,16 @@ This project implements a custom shell program named `newshell`, supporting inte
 - Integrated pipelining in `parse_and_execute()` via `newshell.c`.
 - Declared `execute_pipeline()` in `newshell.h`.
 - Implemented the built-in `path_command()` in `builtins.c` and declared it in `builtins.h`.
+- Implemented logic to save and restore the original `PATH` environment variable:
+  - Saved `PATH` on shell startup in `run_interactive_mode()`
+  - Restored `PATH` on shell exit in `exit_command()`
 
 **Achintya Yalamati:**
 - Implemented the built-in `exit` command with a custom exit message.
 - Handled Ctrl+C and Ctrl+Z using signal handling with process group control.
 - Rewrote `execute_command()` to forward signals to child processes only.
 - Implemented `run_batch_mode()` and integrated it with `main.c`.
-- Ensured terminal control is correctly transferred and restored between shell and subprocesses.
-
+- ~~Ensured terminal control is correctly transferred and restored between shell and subprocesses.~~
 
 ---
 
@@ -75,6 +77,7 @@ Each component is modularized for maintainability and clarity. All functions che
 - **Redirection Syntax**: Only supports single `<` or `>` (not both at once or `>>`). No redirection is supported for built-in commands.
 - **Pipelining**: Up to 3 commands allowed. Built-in commands are not supported in pipelines.
 - **Signal Control**: Signals like Ctrl+C and Ctrl+Z do not kill the shell, only notify. Foreground control and process groups have not been implemented yet.
+- **PATH Restoration**: The shell saves the original `PATH` environment variable on startup and restores it when the shell exits (now implemented).
 
 ---
 
@@ -84,7 +87,6 @@ Each component is modularized for maintainability and clarity. All functions che
 - **Alias Command**: Not implemented (not required for 3-person teams).
 - **Command History**: `myhistory` built-in is not implemented (not assigned due to team size).
 - **Redirection and Pipelines**: Not yet supported simultaneously (e.g., `cmd1 < in.txt | cmd2 > out.txt` is unsupported).
-- **PATH Restoration**: `path_command()` does not restore original environment PATH upon shell exit.
 
 ---
 
