@@ -13,6 +13,9 @@ void run_interactive_mode(){
     signal(SIGINT, handle_signal);   // Handle Ctrl+C
     signal(SIGTSTP, handle_signal);  // Handle Ctrl+Z
 
+    extern char *original_path;     // Save the original PATH
+    original_path = strdup(getenv("PATH"));
+
     char input_line[MAX_COMMAND_INPUT_SIZE];    // Character array to store user input
     while (1){
         // Prompt user for input
