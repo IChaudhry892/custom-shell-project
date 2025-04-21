@@ -73,7 +73,7 @@ char **parse_input(char *command){
             }
         }
 
-        printf("Token %d: %s\n", index+1, token); // *** FOR DEBUGGING ***
+        // printf("Token %d: %s\n", index+1, token); // *** FOR DEBUGGING ***
         args[index] = token;    // Add current token to the args array
         token = strtok(NULL, " \t");    // Move to the next token
         index++;
@@ -81,10 +81,10 @@ char **parse_input(char *command){
 
     args[index] = NULL; // Last argument should be NULL for args to work with execvp()
     // *** FOR DEBUGGING ***
-    printf("Arguments:\n");
-    for (int i = 0; args[i] != NULL; i++) {
-        printf("args[%d]: %s\n", i, args[i]);
-    }
+    // printf("Arguments:\n");
+    // for (int i = 0; args[i] != NULL; i++) {
+    //     printf("args[%d]: %s\n", i, args[i]);
+    // }
     // *** FOR DEBUGGING ***
     return args;    // Return the parsed command as an array of strings
 }
@@ -111,7 +111,7 @@ void execute_command(char **args){
 // Parsing and executing the input line
 void parse_and_execute(char *input_line){
     // Split the user input line into multiple commands by semicolons
-    printf("Input line: %s\n", input_line);    // ** FOR DEBUGGING ***
+    // printf("Input line: %s\n", input_line);    // ** FOR DEBUGGING ***
 
     //if command has '|' handles it by calling the execute_pipeline funciton
     if (strchr(input_line, '|') != NULL) {
@@ -139,13 +139,13 @@ void parse_and_execute(char *input_line){
             }
         }
 
-        printf("Command %d: %s\n", index+1, command); // *** FOR DEBUGGING ***
+        // printf("Command %d: %s\n", index+1, command); // *** FOR DEBUGGING ***
         commands[index] = command;
         // *** FOR DEBUGGING ***
-        printf("Commands:\n");
-        for (int i = 0; commands[i] != NULL; i++) {
-            printf("commands[%d]: %s\n", i, commands[i]);
-        }
+        // printf("Commands:\n");
+        // for (int i = 0; commands[i] != NULL; i++) {
+        //     printf("commands[%d]: %s\n", i, commands[i]);
+        // }
         // *** FOR DEBUGGING ***
         command = strtok(NULL, ";");   // Move to the next command
         index++;
@@ -165,7 +165,7 @@ void parse_and_execute(char *input_line){
             continue;
         }
 
-        printf("Executing command[%d]: %s\n", i, commands[i]);   // *** FOR DEBUGGING ***
+        // printf("Executing command[%d]: %s\n", i, commands[i]);   // *** FOR DEBUGGING ***
 
         // Duplicate command to avoid strtok state conflicts
         char *command_copy = strdup(commands[i]);
