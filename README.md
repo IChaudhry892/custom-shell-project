@@ -42,10 +42,12 @@ This project implements a custom shell program named `newshell`, supporting inte
 - Implemented the built-in `path_command()` in `builtins.c` and declared it in `builtins.h`.
 
 **Achintya Yalamati:**
-- Implemented `run_batch_mode()` for processing commands from a file.
-- Implemented `handle_signal()` to catch `SIGINT` (Ctrl+C) and `SIGTSTP` (Ctrl+Z).
-- Set up signal handling in `run_interactive_mode()` by installing signal handlers.
-- Implemented the built-in `exit_command()` in `builtins.c` and its prototype in `builtins.h`.
+- Implemented the built-in `exit` command with a custom exit message.
+- Handled Ctrl+C and Ctrl+Z using signal handling with process group control.
+- Rewrote `execute_command()` to forward signals to child processes only.
+- Implemented `run_batch_mode()` and integrated it with `main.c`.
+- Ensured terminal control is correctly transferred and restored between shell and subprocesses.
+
 
 ---
 
