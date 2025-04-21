@@ -1,3 +1,7 @@
+/*
+ * builtins.h - Header for built-in shell commands.
+ * Declares prototypes for cd, exit, and path commands.
+ */
 #ifndef BUILTINS_H
 #define BUILTINS_H
 

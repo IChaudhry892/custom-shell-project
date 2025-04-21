@@ -1,3 +1,9 @@
+/*
+ * newshell.c - Core implementation of the custom shell engine.
+ * Ibrahim Chaudhry, Prateek Banda, Achintya Yalamati - CSCE 3600
+ * Implements interactive/batch modes, input parsing, execution logic,
+ * redirection, pipelining, and signal handling.
+ */
 #include "newshell.h"
 
 // Function Implementations For:

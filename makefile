@@ -1,3 +1,5 @@
+# makefile - Builds the custom shell program 'newshell' with all dependencies.
+# Includes a clean rule to remove object files and the executable.
 CC=gcc
 CFLAGS=-Wall -g
 DEPS = newshell.h builtins.h

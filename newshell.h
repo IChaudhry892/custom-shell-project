@@ -1,3 +1,7 @@
+/*
+ * newshell.h - Header for core shell functions and macros.
+ * Declares prototypes for shell operations, redirection, pipelining, and signal handling.
+ */
 #ifndef NEWSHELL_H
 #define NEWSHELL_H
 

@@ -1,3 +1,7 @@
+/*
+ * builtins.c - Implements built-in commands for the shell.
+ * Ibrahim Chaudhry (cd), Prateek Banda (path), Achintya Yalamati (exit) - CSCE 3600
+ */
 #include "builtins.h"
 
 // Maximum number of paths we can store

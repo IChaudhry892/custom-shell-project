@@ -1,3 +1,8 @@
+/*
+ * main.c - Entry point for the custom shell program.
+ * Ibrahim Chaudhry - CSCE 3600
+ * Calls interactive or batch mode based on command-line arguments.
+ */
 #include "newshell.h"
 
 int main(int argc, char *argv[]){
