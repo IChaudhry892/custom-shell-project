@@ -183,7 +183,7 @@ void parse_and_execute(char *input_line){
         } else if (strcmp(args[0], "exit") == 0) {
             exit_command();
         } else if (strcmp(args[0], "path") == 0) {
-            path_command();
+            path_command(args);
         } else {
             execute_command(args);
         }

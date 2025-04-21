@@ -38,7 +38,6 @@ void parse_and_execute(char *input_line);
 // Pipelining - Prateek
 void execute_pipeline(char *input_line);
 
-
 // Signal handling - Achintya
 void handle_signal(int sig);
 

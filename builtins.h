@@ -16,16 +16,11 @@
 
 // cd Command - Ibrahim
 void cd_command(char **args);
+
 // exit Command - Achintya
 void exit_command();
 
-// path Command - Achintya
-void path_command();
-
-
-// exit Command
-
-// path Command
+// path Command - Prateek
 void path_command(char **args);  // Updated to take arguments
 
 
