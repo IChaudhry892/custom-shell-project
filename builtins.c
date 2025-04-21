@@ -11,6 +11,9 @@
 char *path_list[MAX_PATHS];
 int path_count = 0;
 
+char *original_path = NULL;  // Save original PATH to restore later
+
+
 // Function Implementations for 3 Built-In Commands
 
 // cd Command - Ibrahim
