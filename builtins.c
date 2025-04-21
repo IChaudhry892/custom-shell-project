@@ -11,7 +11,8 @@
 char *path_list[MAX_PATHS];
 int path_count = 0;
 
-char *original_path = NULL;  // Save original PATH to restore later
+// Save original PATH to restore later
+char *original_path = NULL;  
 
 
 // Function Implementations for 3 Built-In Commands
@@ -95,6 +96,11 @@ void path_command(char **args) {
 
 // exit Command - Achintya
 void exit_command() {
+    if (original_path != NULL) {
+        setenv("PATH", original_path, 1);  // Restore original PATH
+        free(original_path);               // Free memory 
+        original_path = NULL;
+    }
     printf("Exiting newshell... Goodbye!\n");
     exit(EXIT_SUCCESS);
 }
