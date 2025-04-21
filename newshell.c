@@ -184,6 +184,8 @@ void parse_and_execute(char *input_line){
             exit_command();
         } else if (strcmp(args[0], "path") == 0) {
             path_command(args);
+        } else if (strchr(commands[i], '<') || strchr(commands[i], '>')){
+            handle_redirection(commands[i]);
         } else {
             execute_command(args);
         }
@@ -197,9 +199,90 @@ void parse_and_execute(char *input_line){
     free(commands);
 }
 
-// Executing the 3 built-in commands, maybe we could just do this in parse_and_execute
-
 // Redirection - Ibrahim
+void handle_redirection(char *command){
+    char *input_file = NULL, *output_file = NULL, *command_part = NULL;
+
+    // Detect redirection, find special characters '<' or '>' in command
+    if (strstr(command, "<")){
+        command_part = strtok(command, "<");   // command_part = the token before the '<' or '>'
+        input_file = strtok(NULL, " \t");      // input/output_file = the token after the '<' or '>'
+    } else if (strstr(command, ">")){
+        command_part = strtok(command, ">");
+        output_file = strtok(NULL, " \t");
+    } else{
+        fprintf(stderr, "Redirection parsing error\n");
+        return;
+    }
+
+    // If there's no command or no input/output file
+    if (command_part == NULL || (input_file == NULL && output_file == NULL)) {
+        fprintf(stderr, "Invalid redirection syntax. Valid syntax: cmd1 < in.txt\tor\tcmd2 > out.txt\n");
+        return;
+    }
+
+    // Trim whitespace
+    while (*command_part == ' ' || *command_part == '\t'){
+        command_part++;
+    }
+    if (input_file){
+        while (*input_file == ' ' || *input_file == '\t'){
+            input_file++;
+        }
+    }
+    if (output_file){
+        while (*output_file == ' ' || *output_file == '\t'){
+            output_file++;
+        }
+    }
+
+    // Tokenize the command part
+    char *command_copy = strdup(command_part);
+    char **args = parse_input(command_copy);
+
+    pid_t pid = fork();
+    if (pid == 0){   // Child process
+        // Redirect input if needed
+        if (input_file){
+            int fd_in = open(input_file, O_RDONLY);
+            if (fd_in < 0){
+                perror("Input file open error");
+                exit(EXIT_FAILURE);
+            }
+            dup2(fd_in, 0); // the file descriptor for stdin is 0
+            if (close(fd_in) < 0){
+                perror("Input file close error");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        // Redirect output if needed
+        if (output_file){
+            int fd_out = open(output_file, O_WRONLY | O_TRUNC | O_CREAT, 0644); //0664 -> creates files with permissions rw-r--r--
+            if (fd_out < 0){
+                perror("Output file open error");
+                exit(EXIT_FAILURE);
+            }
+            dup2(fd_out, 1); // the file descriptor for stdout is 1
+            if (close(fd_out) < 0){
+                perror("Output file close error");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        execvp(args[0], args);
+        perror("execvp failed");
+        exit(EXIT_FAILURE);
+    } else if (pid > 0){   // Parent process
+        waitpid(pid, NULL, 0);
+    } else{
+        perror("fork failed");
+    }
+
+    // Free allocated memory
+    free(args);
+    free(command_copy);
+}
 
 // Pipelining - Prateek
 void execute_pipeline(char *input_line) {

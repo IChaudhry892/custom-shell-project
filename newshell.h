@@ -34,6 +34,7 @@ void execute_command(char **args);
 void parse_and_execute(char *input_line);
 
 // Redirection - Ibrahim
+void handle_redirection(char *command);
 
 // Pipelining - Prateek
 void execute_pipeline(char *input_line);

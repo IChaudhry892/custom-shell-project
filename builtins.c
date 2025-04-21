@@ -88,6 +88,6 @@ void path_command(char **args) {
 
 // exit Command - Achintya
 void exit_command() {
-    printf("Exiting newshell... Goodbye, Achintya!\n");
+    printf("Exiting newshell... Goodbye!\n");
     exit(EXIT_SUCCESS);
 }
