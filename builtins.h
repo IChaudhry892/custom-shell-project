@@ -23,5 +23,4 @@ void exit_command();
 // path Command - Prateek
 void path_command(char **args);  // Updated to take arguments
 
-
 #endif
