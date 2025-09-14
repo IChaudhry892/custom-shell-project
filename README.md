@@ -95,10 +95,10 @@ To build the executable using the makefile, run:<br>
 `make`
 
 To run the shell in **interactive mode**:<br>
-`./bitwisemenu`
+`./newshell`
 
 To run the shell in **batch mode**:<br>
-`./bitwisemenu [batchFile]`
+`./newshell [batchFile]`
 
 To clean build artifacts:<br>
 `make clean`
